@@ -8,6 +8,14 @@ const con = mysql.createConnection({
     database: dbcreds.DB_DATABASE
 });
 
+con.connect(function(err) {
+    if (err) {
+        console.error('Error connecting to RDS: ' + err.stack);
+        return;
+    }
+    console.log('Connected to RDS MySQL as id ' + con.threadId);
+});
+
 function addTransaction(amount,desc){
     var mysql = `INSERT INTO \`transactions\` (\`amount\`, \`description\`) VALUES ('${amount}','${desc}')`;
     con.query(mysql, function(err,result){
